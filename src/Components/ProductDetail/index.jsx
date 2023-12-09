@@ -4,7 +4,6 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 
 const ProductDetail = () => {
   const context = useContext(ShoppingCartContext);
-  console.log("Product Detail: ", context.productToShow);
 
   return (
     <aside
