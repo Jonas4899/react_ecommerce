@@ -1,11 +1,19 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { ShoppingCartContext } from "../../Context";
 import { ShoppingBagIcon } from "@heroicons/react/24/solid";
+import { ShoppingCartContext } from "../../Context";
 
 const Navbar = () => {
   const context = useContext(ShoppingCartContext);
   const activeStyle = "underline underline-offset-4";
+
+  const toggleCheckoutSideMenu = () => {
+    if (context.isCheckoutSideMenuOpen) {
+      context.closeCheckoutSideMenu();
+    } else {
+      context.openCheckoutSideMenu();
+    }
+  };
 
   return (
     <nav className="flex justify-between items-center fixed z-10 w-full py-5 px-8 text-sm font-body top-0">
@@ -88,7 +96,10 @@ const Navbar = () => {
             Sign In
           </NavLink>
         </li>
-        <li className="flex justify-center gap-1">
+        <li
+          onClick={toggleCheckoutSideMenu}
+          className="flex justify-center gap-1"
+        >
           <ShoppingBagIcon className="w-4 cursor-pointer" />
           <span>{context.count}</span>
         </li>

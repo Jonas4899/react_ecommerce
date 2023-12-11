@@ -1,0 +1,10 @@
+/**
+ * This function calculates the total price of all products in cart
+ * @param {Array} products cartProducts: Array of objects
+ * @returns {Int} Total price of all products in cart
+ */
+export const totalPrice = (products) => {
+  return products.reduce((total, product) => {
+    return total + product.price;
+  }, 0);
+};

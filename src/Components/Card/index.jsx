@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { ShoppingCartContext } from "../../Context";
-import { PlusIcon } from "@heroicons/react/24/solid";
+import { PlusIcon, CheckIcon } from "@heroicons/react/24/solid";
+import { render } from "react-dom";
 
 const Card = ({ data }) => {
   const context = useContext(ShoppingCartContext);
@@ -18,6 +19,28 @@ const Card = ({ data }) => {
     console.log(context.cartProducts);
   };
 
+  const renderIcon = (id) => {
+    const isInCart =
+      context.cartProducts.filter((product) => product.id === id).length > 0;
+
+    if (isInCart) {
+      return (
+        <div className="absolute top-0 right-0 flex justify-center items-center w-6 h-6 rounded-full m-2 p-1 font-bold bg-green-400 text-white">
+          <CheckIcon className="w-4 cursor-pointer" />
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className="absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1 font-bold"
+          onClick={(event) => addProductsToCart(event, data)}
+        >
+          <PlusIcon className="w-4 cursor-pointer" />
+        </div>
+      );
+    }
+  };
+
   return (
     <div
       className="bg-white cursor-pointer w-56 h-60 rounded-lg"
@@ -32,12 +55,7 @@ const Card = ({ data }) => {
           src={data.image}
           alt="Headphones"
         />
-        <div
-          className="absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1 font-bold"
-          onClick={(event) => addProductsToCart(event, data)}
-        >
-          <PlusIcon className="w-4 cursor-pointer" />
-        </div>
+        {renderIcon(data.id)}
       </figure>
       <p className="flex justify-between">
         <span className="text-sm font-light">{data.title}</span>

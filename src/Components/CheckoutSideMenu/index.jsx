@@ -1,9 +1,19 @@
 import { useContext } from "react";
 import { ShoppingCartContext } from "../../Context";
+import OrderCard from "../OrderCard";
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import { totalPrice } from "../../utils";
 
 const CheckoutSideMenu = () => {
   const context = useContext(ShoppingCartContext);
+
+  const handleDelete = (id) => {
+    const filteredProducts = context.cartProducts.filter(
+      (product) => product.id !== id
+    );
+    context.setCartProducts(filteredProducts);
+    context.setCount(filteredProducts.length);
+  };
 
   return (
     <aside
@@ -17,6 +27,26 @@ const CheckoutSideMenu = () => {
           className="w-4 cursor-pointer"
           onClick={() => context.closeCheckoutSideMenu()}
         />
+      </div>
+      <div className="px-6 overflow-y-scroll">
+        {context.cartProducts.map((product) => (
+          <OrderCard
+            key={product.id}
+            id={product.id}
+            title={product.title}
+            imageUrl={product.image}
+            price={product.price}
+            handleDelete={handleDelete}
+          />
+        ))}
+      </div>
+      <div className="px-6">
+        <p className="flex justify-between items-center">
+          <span className="font-light">Total: </span>
+          <span className="font-medium text-2xl">
+            ${totalPrice(context.cartProducts)}
+          </span>
+        </p>
       </div>
     </aside>
   );
