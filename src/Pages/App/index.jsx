@@ -13,9 +13,15 @@ import "./App.css";
 const AppRoutes = () => {
   let routes = useRoutes([
     { path: "/", element: <Home /> },
+    { path: "/men-clothes", element: <Home /> },
+    { path: "/woman-clothes", element: <Home /> },
+    { path: "/electronics", element: <Home /> },
+    { path: "/jewelery", element: <Home /> },
     { path: "/my-account", element: <MyAccount /> },
     { path: "/my-order", element: <MyOrder /> },
     { path: "/my-orders", element: <MyOrders /> },
+    { path: "/my-orders/last", element: <MyOrder /> },
+    { path: "/my-orders/:id", element: <MyOrder /> },
     { path: "/sign-in", element: <SignIn /> },
     { path: "/*", element: <NotFound /> },
   ]);
@@ -29,9 +35,9 @@ const App = () => {
   return (
     <ShoppingCartProvider>
       <BrowserRouter>
-        <AppRoutes />
         <Navbar />
         <CheckoutSideMenu />
+        <AppRoutes />
       </BrowserRouter>
     </ShoppingCartProvider>
   );

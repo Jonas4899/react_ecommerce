@@ -16,10 +16,12 @@ const OrderCard = (props) => {
       </div>
       <div className="flex items-center gap-2">
         <p className="text-lg font-medium">${price}</p>
-        <XMarkIcon
-          onClick={() => handleDelete(id)}
-          className="h-5 w-5 cursor-pointer"
-        />
+        {handleDelete && (
+          <XMarkIcon
+            onClick={() => handleDelete(id)}
+            className="h-5 w-5 cursor-pointer"
+          />
+        )}
       </div>
     </div>
   );

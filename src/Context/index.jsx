@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const ShoppingCartContext = createContext();
 
@@ -28,6 +28,51 @@ export const ShoppingCartProvider = ({ children }) => {
   // Shopping cart - Add products
   const [cartProducts, setCartProducts] = useState([]);
 
+  // Shopping cart - Order
+  const [order, setOrder] = useState([]);
+
+  // Get products
+  const [items, setItems] = useState(null);
+  const [filteredItems, setFilteredItems] = useState(null);
+
+  // Get products by title
+  const [searchByTitle, setSearchByTitle] = useState(null);
+
+  // Get products by category
+  const [searchByCategory, setSearchByCategory] = useState(null);
+
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products")
+      .then((response) => response.json())
+      .then((data) => setItems(data));
+  }, []);
+
+  const filterItemsByTitle = (items, searchByTitle) => {
+    return items?.filter((item) =>
+      item.title.toLowerCase().includes(searchByTitle.toLowerCase())
+    );
+  };
+
+  const filterItemsByCategory = (items, searchByCategory) => {
+    return items?.filter((item) =>
+      item.category.toLowerCase().includes(searchByCategory.toLowerCase())
+    );
+  };
+
+  useEffect(() => {
+    let updatedItems = items;
+
+    if (searchByTitle) {
+      updatedItems = filterItemsByTitle(updatedItems, searchByTitle);
+    }
+
+    if (searchByCategory) {
+      updatedItems = filterItemsByCategory(updatedItems, searchByCategory);
+    }
+
+    setFilteredItems(updatedItems);
+  }, [items, searchByTitle, searchByCategory]);
+
   return (
     <ShoppingCartContext.Provider
       value={{
@@ -43,6 +88,15 @@ export const ShoppingCartProvider = ({ children }) => {
         isCheckoutSideMenuOpen,
         openCheckoutSideMenu,
         closeCheckoutSideMenu,
+        order,
+        setOrder,
+        items,
+        setItems,
+        searchByTitle,
+        setSearchByTitle,
+        filteredItems,
+        searchByCategory,
+        setSearchByCategory,
       }}
     >
       {children}
